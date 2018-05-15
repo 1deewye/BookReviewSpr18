@@ -26,7 +26,8 @@ namespace BookReviewSpr18.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index([Bind(Include = "BookKey, ReviewrKey, ReviewDate, ReviewTitle, ReviewText, ReviewRating")]Review r)
         {
-            //try {
+            try
+            {
                 r.ReviewerKey = (int)Session["ReviewerKey"];
                 r.ReviewDate = DateTime.Now;
                 db.Reviews.Add(r);
@@ -35,13 +36,13 @@ namespace BookReviewSpr18.Controllers
                 m.MessageText = "Thank you for your review";
                 return RedirectToAction("Result", m);
             }
-            //catch (Exception e)
-            //{
-            //    Message m = new Message();
-            //    m.MessageText = e.Message;
-            //    return RedirectToAction("Result", m);
-            //}
-        //}
+            catch (Exception e)
+            {
+                Message m = new Message();
+                m.MessageText = e.Message;
+                return RedirectToAction("Result", m);
+            }
+        }
         public ActionResult Result(Message msg)
         {
             return View(msg);
